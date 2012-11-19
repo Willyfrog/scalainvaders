@@ -4,40 +4,38 @@ import com.badlogic.gdx.math.Vector3
 
 class Invader (var position: Vector3) {
 
-  val INVADER_RADIUS = 0.75f
-  val INVADER_VELOCITY = 1f
-  val INVADER_POINTS = 40
-  val STATE_MOVE_LEFT = -1
-  val STATE_MOVE_DOWN = 0
-  val STATE_MOVE_RIGHT = 1
+  val InvaderRadius = 0.75f
+  val InvaderSpeed = 1f
+  val InvaderPoints = 40
+  val StateMoveLeft = -1
+  val StateMoveDown = 0
+  val StateMoveRight = 1
 
-  val STATE_SEQ = Array(-1,0,1,0)
+  val StatesQeue = Array(-1,0,1,0)
 
   var stateIndex:Int = 0
 
-  val SCREEN_X = 50
-
- // val movement = Simulation.PLAYFIELD_MAX / 2
-  var movement:Float = SCREEN_X / 2
+ // val movement = Simulation.PLAYFIELDMAX / 2
+  var movement:Float = Mundo.PlayFieldMaxX / 2
 
   def update ( delta: Float, speedMultiplier: Float) {
-    movement += delta * INVADER_VELOCITY * speedMultiplier
+    movement += delta * InvaderSpeed * speedMultiplier
 
     var nextState = false
 
-    if (STATE_SEQ(stateIndex) != STATE_MOVE_DOWN) {
-      position.x += delta * INVADER_VELOCITY * speedMultiplier * STATE_SEQ(stateIndex)
-      if (movement > SCREEN_X)
+    if (StatesQeue(stateIndex) != StateMoveDown) {
+      position.x += delta * InvaderSpeed * speedMultiplier * StatesQeue(stateIndex)
+      if (movement > Mundo.PlayFieldMaxX)
           nextState = true
        }
      else{
-       position.z += delta * INVADER_VELOCITY * speedMultiplier
+       position.z += delta * InvaderSpeed * speedMultiplier
        if (movement > 1)
          nextState = true
      }
 
     if (nextState){
-      stateIndex = (stateIndex + 1) % 4
+      stateIndex = (stateIndex + 1) % 4 //Move through the status queue
       movement = 0
     }
     
